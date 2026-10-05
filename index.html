@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="id" class="dark h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatika SMA Kelas 10 - Pemrograman Web</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        darkbg: '#090d16',
+                        cardbg: '#111827',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Space Grotesk', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #090d16;
+            color: #f3f4f6;
+            overflow: hidden;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Slide Transition Animations */
+        .slide {
+            display: none;
+            opacity: 0;
+            transform: scale(0.98) translateY(10px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.7);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between select-none">
+
+    <header class="glass-panel sticky top-0 z-40 px-6 py-3 flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                <i class="fa-solid fa-code text-base"></i>
+            </div>
+            <div>
+                <span class="text-xs font-semibold tracking-wider uppercase text-blue-400 block">Informatika SMA Kelas 10</span>
+                <h1 class="text-sm font-bold text-slate-200">Pemrograman Web &amp; Dasar Software</h1>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <button onclick="toggleOverview()" class="glass-card hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition">
+                <i class="fa-solid fa-border-all text-blue-400"></i>
+                <span class="hidden sm:inline">Peta Slide</span>
+            </button>
+            <button onclick="toggleFullscreen()" class="glass-card hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition">
+                <i class="fa-solid fa-expand text-blue-400" id="fullscreen-icon"></i>
+                <span class="hidden sm:inline">Layar Penuh</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 relative overflow-y-auto overflow-x-hidden p-4 md:p-8 flex items-center justify-center max-w-7xl mx-auto w-full">
+        
+        <!-- SLIDE 1: Title Slide -->
+        <section class="slide active w-full flex-col justify-center items-center text-center py-8">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-blue-400 text-xs font-semibold mb-6 border border-blue-500/30">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                Modul Pembelajaran Informatika Klas X
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl mb-6">
+                Memasuki Dunia <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400">Pemrograman &amp; Web Development</span>
+            </h1>
+            <p class="text-slate-400 text-base md:text-lg max-w-2xl mb-10 leading-relaxed">
+                Panduan komprehensif memahami jenis pemrograman, arsitektur sistem modern, hingga praktik dasar HTML &amp; CSS.
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl text-left">
+                <div class="glass-card p-4 rounded-xl border-l-4 border-l-blue-500">
+                    <i class="fa-solid fa-cubes text-blue-400 text-xl mb-2"></i>
+                    <p class="text-xs text-slate-400 uppercase font-semibold">Jenis Apps</p>
+                    <p class="text-sm font-bold text-slate-200">Native vs Hybrid</p>
+                </div>
+                <div class="glass-card p-4 rounded-xl border-l-4 border-l-cyan-500">
+                    <i class="fa-solid fa-layer-group text-cyan-400 text-xl mb-2"></i>
+                    <p class="text-xs text-slate-400 uppercase font-semibold">Arsitektur</p>
+                    <p class="text-sm font-bold text-slate-200">Monolith vs Micro</p>
+                </div>
+                <div class="glass-card p-4 rounded-xl border-l-4 border-l-indigo-500">
+                    <i class="fa-solid fa-screwdriver-wrench text-indigo-400 text-xl mb-2"></i>
+                    <p class="text-xs text-slate-400 uppercase font-semibold">Developer Tools</p>
+                    <p class="text-sm font-bold text-slate-200">VS Code &amp; Browser</p>
+                </div>
+                <div class="glass-card p-4 rounded-xl border-l-4 border-l-emerald-500">
+                    <i class="fa-solid fa-code text-emerald-400 text-xl mb-2"></i>
+                    <p class="text-xs text-slate-400 uppercase font-semibold">Bahasa Web</p>
+                    <p class="text-sm font-bold text-slate-200">HTML5 &amp; CSS3</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: Peta Konsep -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">AGENDA BELAJAR</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Peta Konsep Pembelajaran</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-blue-600 group-hover:text-white transition">01</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Native vs Hybrid App</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Mengenal perbedaan mendasar pengembangan aplikasi khusus OS dan lintas platform.</p>
+                </div>
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-cyan-600 group-hover:text-white transition">02</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Bahasa &amp; Platform Target</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Pengelompokan bahasa pemrograman untuk Web, Desktop, dan Mesin Hardware.</p>
+                </div>
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">03</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Arsitektur Aplikasi</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Memahami struktur sistem berskala besar: Monolith vs Microservices.</p>
+                </div>
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-purple-600 group-hover:text-white transition">04</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Tool Pendukung (IDE &amp; Preview)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Persiapan tempat menulis kode (Text Editor) dan tempat uji coba (Web Browser).</p>
+                </div>
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-emerald-600 group-hover:text-white transition">05</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Pondasi Web: HTML &amp; CSS</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Mengetahui struktur elemen tag HTML dan cara kerja styling CSS.</p>
+                </div>
+                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-amber-600 group-hover:text-white transition">06</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Praktik Kode Pertama</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Langkah demi langkah membuat dan menjalankan file HTML pertama Anda.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: Native vs Hybrid -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">JENIS PENGEMBANGAN</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Bahasa Pemrograman Native vs Hybrid</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <!-- Native Card -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-t-blue-500 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-100">Aplikasi Native</h3>
+                                <p class="text-xs text-blue-400 font-semibold">Khusus Satu Platform Spesifik</p>
+                            </div>
+                            <span class="p-2 rounded-lg bg-blue-500/20 text-blue-400"><i class="fa-solid fa-mobile-screen-button text-xl"></i></span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            Dibuat menggunakan bahasa resmi dari penyedia platform OS. Memiliki akses penuh ke fitur hardware fisik.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-2 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Performa sangat tinggi &amp; responsif</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Akses sensor kamera &amp; GPS maksimal</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-rose-400"></i> Biaya &amp; waktu pembuatan lebih tinggi</li>
+                        </ul>
+                    </div>
+                    <div class="pt-4 border-t border-slate-700/50">
+                        <span class="text-[10px] text-slate-400 block uppercase font-bold mb-2">Contoh Teknologi:</span>
+                        <div class="flex gap-2">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-xs font-semibold text-slate-200 border border-slate-700">Kotlin (Android)</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-xs font-semibold text-slate-200 border border-slate-700">Swift (iOS)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hybrid Card -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-t-cyan-500 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-100">Aplikasi Hybrid</h3>
+                                <p class="text-xs text-cyan-400 font-semibold">Satu Kode untuk Banyak Platform</p>
+                            </div>
+                            <span class="p-2 rounded-lg bg-cyan-500/20 text-cyan-400"><i class="fa-solid fa-laptop-code text-xl"></i></span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            Menggunakan teknologi web atau framework multiplatform. Sekali tulis kode, bisa dijalankan di Android &amp; iOS.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-2 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Hemat biaya dan efisiensi waktu</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Pemeliharaan kode lebih terpusat</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-minus text-amber-400"></i> Performa sedikit di bawah Native</li>
+                        </ul>
+                    </div>
+                    <div class="pt-4 border-t border-slate-700/50">
+                        <span class="text-[10px] text-slate-400 block uppercase font-bold mb-2">Contoh Teknologi:</span>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-xs font-semibold text-slate-200 border border-slate-700">Flutter (Dart)</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 text-xs font-semibold text-slate-200 border border-slate-700">React Native</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: Platform Target -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">KLASIFIKASI BAHASA</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Bahasa Pemrograman Berdasarkan Platform</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
+                <!-- Web -->
+                <div class="glass-card p-5 rounded-2xl border-b-2 border-b-blue-500">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-2xl mb-4">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">1. Platform Web</h3>
+                    <p class="text-xs text-slate-400 mb-4 leading-relaxed">Berjalan di dalam peramban web (browser). Tidak memerlukan instalasi khusus di perangkat pengguna.</p>
+                    <div class="space-y-2">
+                        <div class="bg-slate-900/80 p-2 rounded-lg text-xs font-mono text-blue-300">HTML, CSS, JavaScript</div>
+                        <div class="bg-slate-900/80 p-2 rounded-lg text-xs font-mono text-slate-400">PHP, Python, Node.js</div>
+                    </div>
+                </div>
+
+                <!-- Desktop & Embedded -->
+                <div class="glass-card p-5 rounded-2xl border-b-2 border-b-indigo-500">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-2xl mb-4">
+                        <i class="fa-solid fa-desktop"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">2. Desktop &amp; Khusus</h3>
+                    <p class="text-xs text-slate-400 mb-4 leading-relaxed">Berjalan langsung di atas OS komputer (Windows/Mac/Linux) atau mesin kasir &amp; ATM.</p>
+                    <div class="space-y-2">
+                        <div class="bg-slate-900/80 p-2 rounded-lg text-xs font-mono text-indigo-300">C++, C#, Java</div>
+                        <div class="bg-slate-900/80 p-2 rounded-lg text-xs font-mono text-slate-400">Python (PyQt), Electron</div>
+                    </div>
+                </div>
+
+                <!-- Hardware & Machine -->
+                <div class="glass-card p-5 rounded-2xl border-b-2 border-b-emerald-500">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl mb-4">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">3. Mesin / Hardware</h3>
+                    <p class="text-xs text-slate-400 mb-4 leading-relaxed">Berinteraksi langsung dengan sirkuit fisik, mikroprosesor, IoT, atau sistem robotik.</p>
+                    <div class="space-y-2">
+                        <div class="bg-slate-900/80 p-2 rounded-lg text-xs font-mono text-emerald-300">Assembly (Low-Level)</div>
+                        <div class="bg-slate-900/80 p-2 rounded-lg text-xs font-mono text-slate-400">Bahasa C / Embedded C</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: Arsitektur Pemrograman -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">STRUKTUR SISTEM</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Arsitektur: Monolith vs Microservices</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <!-- Monolith -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <h3 class="text-xl font-bold text-slate-100">Monolithic Service</h3>
+                    </div>
+                    <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                        Seluruh modul aplikasi (database, UI, bisnis logika, autentikasi) digabung menjadi <b>satu kesatuan unit besar</b>.
+                    </p>
+                    
+                    <div class="bg-slate-900 p-4 rounded-xl mb-4 border border-slate-800 text-center">
+                        <div class="border-2 border-dashed border-rose-500/40 p-4 rounded-lg bg-rose-500/5">
+                            <span class="text-xs font-bold text-rose-400 block mb-2">[ Satu Aplikasi Raksasa ]</span>
+                            <div class="grid grid-cols-3 gap-2 text-[10px] text-slate-300">
+                                <div class="bg-slate-800 py-1.5 rounded">User Modul</div>
+                                <div class="bg-slate-800 py-1.5 rounded">Payment</div>
+                                <div class="bg-slate-800 py-1.5 rounded">Notifikasi</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400 space-y-1">
+                        <p><strong class="text-emerald-400">Kelebihan:</strong> Mudah dibangun di awal untuk tim kecil.</p>
+                        <p><strong class="text-rose-400">Kekurangan:</strong> Jika 1 fungsi rusak, seluruh aplikasi bisa tumbang.</p>
+                    </div>
+                </div>
+
+                <!-- Microservices -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <h3 class="text-xl font-bold text-slate-100">Microservices</h3>
+                    </div>
+                    <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                        Aplikasi dipecah menjadi <b>layanan-layanan kecil independen</b> yang saling berkomunikasi melalui API.
+                    </p>
+                    
+                    <div class="bg-slate-900 p-4 rounded-xl mb-4 border border-slate-800">
+                        <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                            <div class="border border-emerald-500/40 p-2 rounded bg-emerald-500/10 text-emerald-300 font-bold">Service User</div>
+                            <div class="border border-emerald-500/40 p-2 rounded bg-emerald-500/10 text-emerald-300 font-bold">Service Payment</div>
+                            <div class="border border-emerald-500/40 p-2 rounded bg-emerald-500/10 text-emerald-300 font-bold">Service Notif</div>
+                        </div>
+                        <p class="text-[10px] text-center text-slate-500 mt-2">← Terhubung via API Gateway →</p>
+                    </div>
+
+                    <div class="text-xs text-slate-400 space-y-1">
+                        <p><strong class="text-emerald-400">Kelebihan:</strong> Fleksibel, dapat dikembangkan secara terpisah.</p>
+                        <p><strong class="text-amber-400">Kekurangan:</strong> Konfigurasi awal dan jaringan lebih rumit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: Tool Pendukung -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">PERSIAPAN WORKSPACE</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Tool Utama Web Developer</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <!-- Text Editor -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-100">1. Text Editor / IDE</h3>
+                            <p class="text-xs text-slate-400">Tempat menulis sintaks instruksi program</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                        Aplikasi koding modern menyediakan fitur pembantu seperti *Syntax Highlighting*, *Auto-completion*, dan *Extension*.
+                    </p>
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-semibold text-blue-400"><i class="fa-brands fa-microsoft mr-2"></i>Visual Studio Code</span>
+                            <span class="text-[10px] bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">Rekomendasi Utama</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400">Fitur unggulan: Extension Live Server, Emmet shortcut, &amp; Terminal terintegrasi.</p>
+                    </div>
+                </div>
+
+                <!-- Preview Tool -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-window-restore"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-100">2. Output Preview Tool</h3>
+                            <p class="text-xs text-slate-400">Tempat merender dan menampilkan visual web</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                        Web Browser bertindak sebagai *engine* penerjemah file kode HTML/CSS menjadi tampilan antarmuka nyata.
+                    </p>
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-semibold text-cyan-400"><i class="fa-brands fa-chrome mr-2"></i>Modern Web Browser</span>
+                            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">DevTools (F12)</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400">Google Chrome, Mozilla Firefox, Microsoft Edge, atau Brave Browser.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 7: Mengapa Web Development -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">MENGAPA WEB?</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Alasan Mempelajari Pemrograman Web</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+                <div class="glass-card p-4 rounded-xl text-center">
+                    <i class="fa-solid fa-universal-access text-blue-400 text-2xl mb-2"></i>
+                    <h3 class="text-sm font-bold text-slate-200">Akses Tanpa Batas</h3>
+                    <p class="text-xs text-slate-400 mt-1">Dapat diakses kapan saja dari mana saja hanya dengan alamat URL.</p>
+                </div>
+                <div class="glass-card p-4 rounded-xl text-center">
+                    <i class="fa-solid fa-devices text-cyan-400 text-2xl mb-2"></i>
+                    <h3 class="text-sm font-bold text-slate-200">Lintas Perangkat</h3>
+                    <p class="text-xs text-slate-400 mt-1">Otomatis menyesuaikan layar Smartphone, Tablet, hingga Smart TV.</p>
+                </div>
+                <div class="glass-card p-4 rounded-xl text-center">
+                    <i class="fa-solid fa-rocket text-indigo-400 text-2xl mb-2"></i>
+                    <h3 class="text-sm font-bold text-slate-200">Ekosistem Luas</h3>
+                    <p class="text-xs text-slate-400 mt-1">Teknologi yang terus berkembang pesat dengan peluang karir terbuka tinggi.</p>
+                </div>
+            </div>
+
+            <!-- 3 Pilar Web -->
+            <div class="glass-panel p-5 rounded-2xl border border-blue-500/30">
+                <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-3">Tiga Pilar Utama Pemrograman Web:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-orange-500/30">
+                        <span class="text-orange-400 font-bold text-sm block">HTML</span>
+                        <span class="text-[11px] text-slate-400">Struktur &amp; Pondasi Konten</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-blue-500/30">
+                        <span class="text-blue-400 font-bold text-sm block">CSS</span>
+                        <span class="text-[11px] text-slate-400">Estetika &amp; Tata Letak Visual</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-yellow-500/30">
+                        <span class="text-yellow-400 font-bold text-sm block">JavaScript</span>
+                        <span class="text-[11px] text-slate-400">Logika &amp; Interaktivitas Dinamis</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 8: HTML Fundamental -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-4">
+                <span class="text-xs font-bold text-orange-400 uppercase tracking-widest block mb-1">STRUKTUR UTAMA</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Pengenalan HTML (HyperText Markup Language)</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-center">
+                <div class="space-y-3">
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        HTML bukanlah bahasa pemrograman berlogika (seperti C++ / Python), melainkan <b>Bahasa Penanda (Markup Language)</b> untuk menyusun kerangka halaman web.
+                    </p>
+
+                    <!-- Anatomi Tag -->
+                    <div class="glass-card p-4 rounded-xl">
+                        <h3 class="text-xs font-bold text-orange-400 uppercase mb-2">Anatomi Tag HTML:</h3>
+                        <div class="bg-slate-950 p-3 rounded-lg code-font text-xs flex items-center gap-1 justify-center">
+                            <span class="text-rose-400">&lt;p</span>
+                            <span class="text-yellow-300"> class=</span><span class="text-emerald-300">"teks"</span><span class="text-rose-400">&gt;</span>
+                            <span class="text-slate-100">Halo Dunia</span>
+                            <span class="text-rose-400">&lt;/p&gt;</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1 text-[10px] text-center text-slate-400 mt-2">
+                            <span>Tag Pembuka + Atribut</span>
+                            <span>Isi Konten</span>
+                            <span>Tag Penutup</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code Example -->
+                <div class="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
+                    <div class="bg-slate-900 px-4 py-2 border-b border-slate-800 flex items-center gap-2">
+                        <div class="w-2.5 h-2.5 rounded-full bg-rose-500"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                        <span class="text-[11px] text-slate-400 font-mono ml-2">index.html</span>
+                    </div>
+                    <pre class="p-4 code-font text-xs text-slate-300 leading-relaxed overflow-x-auto"><code><span class="text-slate-500">&lt;!DOCTYPE html&gt;</span>
+<span class="text-blue-400">&lt;html&gt;</span>
+  <span class="text-blue-400">&lt;head&gt;</span>
+    <span class="text-blue-400">&lt;title&gt;</span>Web Pertamaku<span class="text-blue-400">&lt;/title&gt;</span>
+  <span class="text-blue-400">&lt;/head&gt;</span>
+  <span class="text-blue-400">&lt;body&gt;</span>
+    <span class="text-orange-400">&lt;h1&gt;</span>Selamat Datang!<span class="text-orange-400">&lt;/h1&gt;</span>
+    <span class="text-orange-400">&lt;p&gt;</span>Ini paragraf pertama saya.<span class="text-orange-400">&lt;/p&gt;</span>
+  <span class="text-blue-400">&lt;/body&gt;</span>
+<span class="text-blue-400">&lt;/html&gt;</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 9: CSS Fundamental -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-4">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">DESAIN &amp; STYLE</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Pengenalan CSS (Cascading Style Sheets)</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-center">
+                <div class="space-y-4">
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        CSS bertugas menghias tampilan elemen HTML agar menarik. Mengatur warna, tata letak, jarak, ukuran font, hingga animasi.
+                    </p>
+
+                    <div class="glass-card p-4 rounded-xl border-l-4 border-l-blue-500">
+                        <h3 class="text-xs font-bold text-blue-400 uppercase mb-2">Aturan Penulisan Sintaks CSS:</h3>
+                        <div class="bg-slate-950 p-3 rounded-lg code-font text-xs">
+                            <span class="text-yellow-400">h1</span> {<br>
+                            &nbsp;&nbsp;<span class="text-cyan-300">color</span>: <span class="text-emerald-300">#3b82f6</span>;<br>
+                            &nbsp;&nbsp;<span class="text-cyan-300">font-size</span>: <span class="text-emerald-300">24px</span>;<br>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                        <div class="bg-slate-900 p-2 rounded border border-slate-800"><b>Inline CSS</b><br><span class="text-slate-500">Di dalam atribut HTML</span></div>
+                        <div class="bg-slate-900 p-2 rounded border border-slate-800"><b>Internal CSS</b><br><span class="text-slate-500">Tag &lt;style&gt; di head</span></div>
+                        <div class="bg-slate-900 p-2 rounded border border-slate-800"><b>External CSS</b><br><span class="text-slate-500">File style.css terpisah</span></div>
+                    </div>
+                </div>
+
+                <!-- Interactive Preview Demo -->
+                <div class="glass-card p-6 rounded-2xl text-center space-y-4">
+                    <span class="text-xs text-slate-400 block font-semibold">Simulasi Perubahan CSS:</span>
+                    <div id="demo-box" class="p-6 rounded-xl bg-slate-800 border border-slate-700 transition-all duration-300">
+                        <h4 class="text-lg font-bold text-slate-200">Elemen Judul Web</h4>
+                        <p class="text-xs text-slate-400">Tampilan dapat diubah secara instan dengan CSS.</p>
+                    </div>
+
+                    <div class="flex justify-center gap-2 pt-2">
+                        <button onclick="changeDemoStyle('default')" class="px-3 py-1.5 rounded bg-slate-800 text-xs text-slate-300 hover:bg-slate-700 border border-slate-700">Polos</button>
+                        <button onclick="changeDemoStyle('blue')" class="px-3 py-1.5 rounded bg-blue-600 text-xs text-white hover:bg-blue-500">Gaya Biru</button>
+                        <button onclick="changeDemoStyle('emerald')" class="px-3 py-1.5 rounded bg-emerald-600 text-xs text-white hover:bg-emerald-500">Gaya Hijau Modern</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 10: Analogi Triad Web -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-6 text-center">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">METAFORA PEMAHAMAN</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Analogi Triad Pemrograman Web</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                <!-- HTML Analogy -->
+                <div class="glass-card p-6 rounded-2xl text-center border-t-4 border-t-orange-500">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-orange-500/10 text-orange-400 flex items-center justify-center text-3xl mb-4">
+                        <i class="fa-solid fa-bone"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-1">HTML</h3>
+                    <span class="text-xs font-semibold text-orange-400 block mb-3">Rangka &amp; Tulang Manusia</span>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Memberikan struktur fisik dasar. Tanpa CSS/JS, halaman web hanya berupa teks hitam-putih polos bertingkat.
+                    </p>
+                </div>
+
+                <!-- CSS Analogy -->
+                <div class="glass-card p-6 rounded-2xl text-center border-t-4 border-t-blue-500">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center text-3xl mb-4">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-1">CSS</h3>
+                    <span class="text-xs font-semibold text-blue-400 block mb-3">Pakaian, Warna &amp; Gaya</span>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Memberikan estetika visual: warna kulit, Pakaian, perhiasan, dan tata letak gaya tubuh agar memikat mata.
+                    </p>
+                </div>
+
+                <!-- JS Analogy -->
+                <div class="glass-card p-6 rounded-2xl text-center border-t-4 border-t-yellow-500">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-yellow-500/10 text-yellow-400 flex items-center justify-center text-3xl mb-4">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-1">JavaScript</h3>
+                    <span class="text-xs font-semibold text-yellow-400 block mb-3">Otot, Saraf &amp; Otak</span>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Memberikan kemampuan bergerak, berpikir, merespons klik, animasi dinamis, dan pemrosesan data.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 11: Langkah Praktik Pertama -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">PANDUAN PRAKTIK</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Langkah Praktik Pertama di Komputer</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
+                <div class="glass-card p-5 rounded-xl border-l-2 border-l-blue-500">
+                    <span class="text-xs font-mono text-blue-400 font-bold block mb-2">LANGKAH 01</span>
+                    <h3 class="text-sm font-bold text-slate-200 mb-1">Buka VS Code</h3>
+                    <p class="text-xs text-slate-400">Jalankan aplikasi Visual Studio Code di komputer laboratorium Anda.</p>
+                </div>
+
+                <div class="glass-card p-5 rounded-xl border-l-2 border-l-cyan-500">
+                    <span class="text-xs font-mono text-cyan-400 font-bold block mb-2">LANGKAH 02</span>
+                    <h3 class="text-sm font-bold text-slate-200 mb-1">Buat File Baru</h3>
+                    <p class="text-xs text-slate-400">Buat file baru dan simpan dengan nama wajib: <code class="text-cyan-300 font-mono">index.html</code>.</p>
+                </div>
+
+                <div class="glass-card p-5 rounded-xl border-l-2 border-l-indigo-500">
+                    <span class="text-xs font-mono text-indigo-400 font-bold block mb-2">LANGKAH 03</span>
+                    <h3 class="text-sm font-bold text-slate-200 mb-1">Gunakan Shortcut</h3>
+                    <p class="text-xs text-slate-400">Ketik tanda <code class="text-indigo-300 font-mono">!</code> lalu tekan tombol <kbd class="bg-slate-800 px-1 rounded text-[10px]">Tab</kbd> untuk struktur otomatis.</p>
+                </div>
+
+                <div class="glass-card p-5 rounded-xl border-l-2 border-l-emerald-500">
+                    <span class="text-xs font-mono text-emerald-400 font-bold block mb-2">LANGKAH 04</span>
+                    <h3 class="text-sm font-bold text-slate-200 mb-1">Prinjau di Browser</h3>
+                    <p class="text-xs text-slate-400">Klik kanan file &gt; <i>Open with Live Server</i> atau buka langsung di Chrome.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 rounded-xl bg-blue-950/40 border border-blue-800/40 flex items-center gap-3">
+                <i class="fa-solid fa-lightbulb text-yellow-400 text-xl"></i>
+                <p class="text-xs text-blue-200"><b>Tips Guru:</b> Selalu simpan perubahan kodingan Anda dengan menekan tombol kombinasi <kbd class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px] border border-slate-700">Ctrl + S</kbd> sebelum melihat hasil di browser.</p>
+            </div>
+        </section>
+
+        <!-- SLIDE 12: Ringkasan & Interactive Quiz -->
+        <section class="slide w-full flex-col justify-center">
+            <div class="mb-4">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">EVALUASI SINGKAT</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Ringkasan &amp; Kuis Pemahaman</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-start">
+                <!-- Summary List -->
+                <div class="glass-card p-5 rounded-2xl space-y-3">
+                    <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-2 text-blue-400">Poin Kunci Hari Ini:</h3>
+                    <ul class="text-xs text-slate-300 space-y-2">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-blue-400 mt-0.5"></i> Aplikasi Native menawarkan kinerja maksimal, sedangkan Hybrid efisien multiplatform.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-blue-400 mt-0.5"></i> Web Development memanfaatkan HTML sebagai penyusun struktur dan CSS sebagai pengatur tata visual.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-blue-400 mt-0.5"></i> Tool wajib pemula adalah VS Code (Text Editor) dan Google Chrome (Web Browser).</li>
+                    </ul>
+                </div>
+
+                <!-- Interactive Mini Quiz -->
+                <div class="glass-panel p-5 rounded-2xl border border-slate-700 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold text-slate-200 uppercase">Uji Pemahaman Cepat:</h3>
+                        <span id="quiz-score" class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded font-mono">Soal 1 dari 1</span>
+                    </div>
+
+                    <div id="quiz-container" class="space-y-3">
+                        <p class="text-xs font-semibold text-slate-100" id="quiz-question">Bahasa penanda yang digunakan khusus untuk membangun struktur kerangka dasar web adalah?</p>
+                        <div class="space-y-2" id="quiz-options">
+                            <button onclick="checkQuiz(this, false)" class="w-full text-left p-2.5 rounded-lg bg-slate-800 text-xs text-slate-300 hover:bg-slate-700 transition">A. CSS</button>
+                            <button onclick="checkQuiz(this, true)" class="w-full text-left p-2.5 rounded-lg bg-slate-800 text-xs text-slate-300 hover:bg-slate-700 transition">B. HTML</button>
+                            <button onclick="checkQuiz(this, false)" class="w-full text-left p-2.5 rounded-lg bg-slate-800 text-xs text-slate-300 hover:bg-slate-700 transition">C. Python</button>
+                        </div>
+                    </div>
+
+                    <div id="quiz-feedback" class="hidden p-3 rounded-lg text-xs font-medium text-center"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Slide Overview Drawer Modal -->
+    <div id="overview-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex-col p-6 overflow-y-auto">
+        <div class="flex justify-between items-center mb-6 max-w-6xl mx-auto w-full">
+            <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-border-all text-blue-400 mr-2"></i>Peta Seluruh Slide Presentation</h3>
+            <button onclick="toggleOverview()" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-6xl mx-auto w-full" id="overview-grid">
+            <!-- Dynamically populated via JS -->
+        </div>
+    </div>
+
+    <!-- Bottom Controls & Progress Bar -->
+    <footer class="glass-panel border-t border-slate-800 px-6 py-3 z-40">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <!-- Slide Counter -->
+            <div class="text-xs font-mono text-slate-400 min-w-[90px]">
+                Slide <span id="current-slide-num" class="text-blue-400 font-bold">1</span> / <span id="total-slide-num">12</span>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="flex-1 max-w-md bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex items-center gap-2">
+                <button onclick="prevSlide()" id="btn-prev" class="p-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                </button>
+                <button onclick="nextSlide()" id="btn-next" class="p-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed transition">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // State variables
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // Elements
+        const currentSlideNumEl = document.getElementById('current-slide-num');
+        const totalSlideNumEl = document.getElementById('total-slide-num');
+        const progressBarEl = document.getElementById('progress-bar');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const overviewModal = document.getElementById('overview-modal');
+        const overviewGrid = document.getElementById('overview-grid');
+
+        // Titles for slide overview
+        const slideTitles = [
+            "1. Judul Utama", "2. Peta Konsep", "3. Native vs Hybrid",
+            "4. Bahasa & Platform Target", "5. Arsitektur Pemrograman", "6. Tool Pendukung",
+            "7. Mengapa Web?", "8. Pengenalan HTML", "9. Pengenalan CSS",
+            "10. Analogi Triad Web", "11. Langkah Praktik", "12. Ringkasan & Kuis"
+        ];
+
+        // Initialize presentation
+        function init() {
+            totalSlideNumEl.textContent = totalSlides;
+            updateSlideView();
+            buildOverviewGrid();
+            
+            // Keybindings listener
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                } else if (e.key === 'f' || e.key === 'F') {
+                    toggleFullscreen();
+                } else if (e.key === 'Escape') {
+                    if (!overviewModal.classList.contains('hidden')) {
+                        toggleOverview();
+                    }
+                }
+            });
+        }
+
+        // Show active slide
+        function updateSlideView() {
+            slides.forEach((slide, idx) => {
+                if (idx === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Update bottom info
+            currentSlideNumEl.textContent = currentSlide + 1;
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBarEl.style.width = `${progress}%`;
+
+            // Button states
+            btnPrev.disabled = currentSlide === 0;
+            btnNext.disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlideView();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlideView();
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlideView();
+            overviewModal.classList.add('hidden');
+            overviewModal.classList.remove('flex');
+        }
+
+        // Build grid overview
+        function buildOverviewGrid() {
+            overviewGrid.innerHTML = '';
+            slideTitles.forEach((title, idx) => {
+                const card = document.createElement('div');
+                card.className = `glass-card p-4 rounded-xl cursor-pointer hover:border-blue-500 transition ${idx === currentSlide ? 'border-2 border-blue-500 bg-blue-900/20' : ''}`;
+                card.onclick = () => goToSlide(idx);
+                card.innerHTML = `
+                    <div class="text-[10px] font-mono text-blue-400 mb-1">SLIDE ${idx + 1}</div>
+                    <div class="text-xs font-bold text-slate-200">${title}</div>
+                `;
+                overviewGrid.appendChild(card);
+            });
+        }
+
+        function toggleOverview() {
+            if (overviewModal.classList.contains('hidden')) {
+                buildOverviewGrid();
+                overviewModal.classList.remove('hidden');
+                overviewModal.classList.add('flex');
+            } else {
+                overviewModal.classList.add('hidden');
+                overviewModal.classList.remove('flex');
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // CSS Interactive Demo Helper (Slide 9)
+        function changeDemoStyle(styleType) {
+            const box = document.getElementById('demo-box');
+            if (styleType === 'default') {
+                box.className = "p-6 rounded-xl bg-slate-800 border border-slate-700 transition-all duration-300";
+            } else if (styleType === 'blue') {
+                box.className = "p-6 rounded-xl bg-blue-900/50 border-2 border-blue-400 shadow-lg shadow-blue-500/20 transition-all duration-300";
+            } else if (styleType === 'emerald') {
+                box.className = "p-6 rounded-2xl bg-emerald-950/60 border-2 border-emerald-400 text-emerald-200 transition-all duration-300 transform scale-105";
+            }
+        }
+
+        // Interactive Quiz Helper (Slide 12)
+        function checkQuiz(btn, isCorrect) {
+            const feedback = document.getElementById('quiz-feedback');
+            const options = document.querySelectorAll('#quiz-options button');
+            
+            options.forEach(b => {
+                b.disabled = true;
+                b.classList.remove('hover:bg-slate-700');
+            });
+
+            feedback.classList.remove('hidden');
+            if (isCorrect) {
+                btn.classList.add('bg-emerald-600', 'text-white');
+                feedback.className = "p-3 rounded-lg text-xs font-medium text-center bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                feedback.innerHTML = "<i class='fa-solid fa-circle-check mr-2'></i>Benar sekali! HTML adalah HyperText Markup Language untuk struktur web.";
+            } else {
+                btn.classList.add('bg-rose-600', 'text-white');
+                feedback.className = "p-3 rounded-lg text-xs font-medium text-center bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                feedback.innerHTML = "<i class='fa-solid fa-circle-xmark mr-2'></i>Kurang tepat. Jawaban yang benar adalah B. HTML.";
+            }
+        }
+
+        // Start initialization on window load
+        window.onload = init;
+    </script>
+</body>
+</html>
